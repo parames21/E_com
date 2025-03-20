@@ -10,7 +10,7 @@ from flask_migrate import Migrate
 
 def initialize_app():
     app = Flask(__name__)
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:parames%40123@localhost/grocery_db'
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://grocery_user:1234@localhost/grocery_db'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.config['SECRET_KEY'] = 'parames@123'
     
