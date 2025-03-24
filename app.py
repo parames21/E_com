@@ -7,10 +7,10 @@ from flask_migrate import Migrate
 
 # Initialize Flask application and database
 
-
 def initialize_app():
     app = Flask(__name__)
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://grocery_user:1234@localhost/grocery_db'
+    # Updated to use SQLite
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///grocery_db.sqlite3'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.config['SECRET_KEY'] = 'parames@123'
     
@@ -18,10 +18,7 @@ def initialize_app():
     Migrate(app, db)
     return app
 
-
-
 # Initialize database
-
 db = SQLAlchemy()
 app = initialize_app()
 
@@ -146,7 +143,6 @@ def signup():
             logging.error(f"Error saving new user: {e}")
     return render_template('index.html')
 
-
 @app.route('/logout')
 def logout():
     user_id = session.pop('user_id', None)
@@ -164,7 +160,6 @@ def buy():
         total = sum(item['price'] * item['quantity'] for item in session['cart'])
     
     return render_template('buy.html', products=products, total=total)
-
 
 @app.route('/add_to_cart', methods=['POST'])
 @login_required
@@ -203,7 +198,6 @@ def add_to_cart():
 
     return redirect(url_for('buy'))  # Redirect back to the buy page
 
-
 @app.route('/checkout', methods=['POST'])
 @login_required
 def checkout():
@@ -240,7 +234,6 @@ def checkout():
         logging.error(f"Error placing order: {e}")
         flash('Error placing order.')
     return redirect(url_for('buy'))
-
 
 @app.route('/dashboard')
 @admin_required
